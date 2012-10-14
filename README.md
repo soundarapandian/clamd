@@ -28,12 +28,12 @@ Or install it yourself as:
     To shutdown Clamd
       Clamd.shutdown
     To scan a file
-      Clamd.scan(full_file_path)
+      Clamd.scan(full_file_or_directory_path)
     To use CONTSCAN facility of Clamd
-      Clamd.contscan(full_file_path)
+      Clamd.contscan(full_file_or_directory_path)
     To use MULTISCAN facility of Clamd
-      Clamd.multiscan(full_file_path)
+      Clamd.multiscan(full_file_or_directory_path)
     To use INSTREAM facility of Clamd
-      Clamd.install(full_file_path)
+      Clamd.instream(full_file_path)
     To know Clamd scan queue status
       Clamd.stats
