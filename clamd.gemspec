@@ -8,9 +8,10 @@ Gem::Specification.new do |gem|
   gem.version       = Clamd::VERSION
   gem.authors       = ["soundarapandian rathinasamy"]
   gem.email         = ["soundar.rathinasamy@gmail.com"]
-  gem.description   = %q{Ruby gem to interact with Clamd daemon}
-  gem.summary       = %q{Ruby gem to interact with Clamd daemon}
-  gem.homepage      = ""
+  gem.description   = %q{Ruby gem to interact with ClamAV daemon(Clamd)}
+  gem.summary       = %q{Clamd gem enables you to feed the simple VERSION command to 
+                         complex INSTREAM command to ClamAV antivirus daemon(Clamd)}
+  gem.homepage      = "https://github.com/soundarapandian/clamd"
 
   gem.files         = `git ls-files`.split($/)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
