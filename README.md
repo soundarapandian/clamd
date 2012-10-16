@@ -61,6 +61,7 @@ To shutdown Clamd daemon
     Clamd.shutdown
 
 Response will be blank if shutdown success
+
     =>""
 
 To scan a file
@@ -84,4 +85,5 @@ To use INSTREAM facility of Clamd
     =>"stream: OK"
     
 To know Clamd scan queue status
+
     Clamd.stats
