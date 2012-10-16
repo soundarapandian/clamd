@@ -3,7 +3,7 @@ module Clamd
     def stream_to_clamd(socket, path)
       begin
         file = File.open(path, "rb")
-        read = file.read(10240)
+        read = file.read(Clamd.configuration.chunk_size)
         while read
           write_chunk(socket, read)
           read = file.read(10240)

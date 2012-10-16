@@ -1,3 +1,4 @@
+require 'timeout'
 require 'clamd/socket_utility'
 require 'clamd/instream_helper'
 
@@ -19,17 +20,32 @@ module Clamd
 
     def exec(command, path=nil)
       begin
-        socket = open_socket
-        if path && command != COMMAND[:instream]
-          socket.write("#{command} #{path}")
-        else
-          socket.write(command)
-        end
-        stream_to_clamd(socket, path) if command == COMMAND[:instream]
-        socket.recv(clamd_response_size(command))
+        return "ERROR: Please configure Clamd first" unless Clamd.configured?
+        socket = Timeout::timeout(Clamd.configuration.open_timeout) { open_socket }
+        write_socket(socket, command, path)
+        Timeout::timeout(Clamd.configuration.read_timeout) { read_socket(socket, command) }
+      rescue Errno::ECONNREFUSED
+        "ERROR: Failed to connect to Clamd daemon"
+      rescue Errno::ECONNRESET, Errno::ECONNABORTED, Errno::EPIPE
+        "ERROR: Connection with Clamd daemon closed unexpectedly"
+      rescue Timeout::Error
+        "ERROR: Timeout error occurred"
       ensure
         close_socket(socket) if socket
       end
+    end
+    
+    def read_socket(socket, command)
+      socket.recv(clamd_response_size(command))
+    end
+
+    def write_socket(socket, command, path)
+      if path && command != COMMAND[:instream]
+        socket.write("#{command} #{path}")
+      else
+        socket.write(command)
+      end
+      stream_to_clamd(socket, path) if command == COMMAND[:instream]
     end
 
     def clamd_response_size(command)

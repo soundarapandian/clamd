@@ -3,7 +3,7 @@ require 'socket'
 module Clamd
   module SocketUtility
     def open_socket
-      TCPSocket.open("localhost", 9321)
+      TCPSocket.open(Clamd.configuration.host, Clamd.configuration.port)
     end
 
     def close_socket(socket)
