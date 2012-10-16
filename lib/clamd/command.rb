@@ -1,5 +1,5 @@
 require 'clamd/socket_utility'
-require 'clamd/instream_helper.rb'
+require 'clamd/instream_helper'
 
 module Clamd
   module Command
