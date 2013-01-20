@@ -87,3 +87,9 @@ To use INSTREAM facility of Clamd
 To know Clamd scan queue status
 
     Clamd.stats
+
+## Usage
+
+Run spec
+
+    host="localhost" port="9321" rspec

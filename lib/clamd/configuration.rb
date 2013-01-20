@@ -22,7 +22,6 @@ module Clamd
   end
 
   def self.configuration
-    return unless @configuration
     @configuration
   end
 
