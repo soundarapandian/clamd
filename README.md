@@ -88,7 +88,7 @@ To know Clamd scan queue status
 
     Clamd.stats
 
-## Usage
+## Test
 
 Run spec
 
