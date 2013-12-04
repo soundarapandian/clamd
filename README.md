@@ -2,8 +2,6 @@
 
 Ruby gem to speak with Clamd daemon
 
-NOTE: Still under development
-
 ## Installation
 
 Add this line to your application's Gemfile:
