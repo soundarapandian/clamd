@@ -6,7 +6,7 @@ require 'clamd/version'
 Gem::Specification.new do |gem|
   gem.name          = "clamd"
   gem.version       = Clamd::VERSION
-  gem.authors       = ["soundarapandian rathinasamy"]
+  gem.authors       = ["Soundarapandian Rathinasamy"]
   gem.email         = ["soundar.rathinasamy@gmail.com"]
   gem.description   = %q{Ruby gem to interact with ClamAV daemon(Clamd)}
   gem.summary       = %q{Clamd gem enables you to feed the simple VERSION command to 
