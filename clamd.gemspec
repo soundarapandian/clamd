@@ -1,19 +1,17 @@
 # -*- encoding: utf-8 -*-
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'clamd/version'
+require File.expand_path('../lib/clamd/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.name          = "clamd"
+  gem.name          = 'clamd'
   gem.version       = Clamd::VERSION
-  gem.authors       = ["Soundarapandian Rathinasamy"]
-  gem.email         = ["soundar.rathinasamy@gmail.com"]
+  gem.authors       = ['Soundarapandian Rathinasamy']
+  gem.email         = ['soundar.rathinasamy@gmail.com']
   gem.description   = %q{Ruby gem to interact with ClamAV daemon(Clamd)}
   gem.summary       = %q{Clamd gem enables you to feed the simple VERSION command to 
                          complex INSTREAM command to ClamAV antivirus daemon(Clamd)}
-  gem.homepage      = "https://github.com/soundarapandian/clamd"
-
-  gem.files         = `git ls-files`.split($/)
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.require_paths = ["lib"]
+  gem.homepage      = 'https://github.com/soundarapandian/clamd'
+  gem.license       = 'MIT'
+  gem.files         = `git ls-files`.split('\n')
+  gem.test_files    = `git ls-files -- spec/clamd/*`.split('\n')
+  gem.require_paths = ['lib']
 end
