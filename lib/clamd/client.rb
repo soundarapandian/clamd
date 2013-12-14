@@ -24,12 +24,8 @@ module Clamd
         socket = Timeout::timeout(Clamd.configuration.open_timeout) { open_socket }
         write_socket(socket, command, path)
         Timeout::timeout(Clamd.configuration.read_timeout) { read_socket(socket, command) }
-      rescue Errno::ECONNREFUSED
-        "ERROR: Failed to connect to Clamd daemon"
-      rescue Errno::ECONNRESET, Errno::ECONNABORTED, Errno::EPIPE
-        "ERROR: Connection with Clamd daemon closed unexpectedly"
-      rescue Timeout::Error
-        "ERROR: Timeout error occurred"
+      rescue Exception => e
+        'error'
       ensure
         close_socket(socket) if socket
       end
