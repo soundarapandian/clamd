@@ -12,82 +12,76 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Install clamd directly
 
     $ gem install clamd
 
 ## Configuration
 
-Refer the below code to configure the Clamd gem
+Clamd by default connects to 9321 port in localhost. You can also configure the
+host, port, open_timeout(seconds), read_timeout(seconds) and chunk_size(bytes).
+Refer the following code to configure Clamd.
     
-    Clamd.configure do |config|
-      config.host = "localhost" #mandatory
-      config.port = 9321 #mandatory
-      config.open_timeout = 5 #optional
-      config.read_timeout = 20 #optional
-      config.chunk_size = 10240 #optional
+    client.configure do |config|
+      config.host = 'localhost'
+      config.port = 9321
+      config.open_timeout = 5
+      config.read_timeout = 20
+      config.chunk_size = 102400
     end  
 
 ## Usage
 
-To check ClamAV version
+  client = Clamd::Client.new
 
-    Clamd.version
+### PING
 
-Response will be like below
-
-    =>"ClamAV 0.97.5/15468/Wed Oct 17 01:13:58 2012\n"
-
-To check Clamd is alive or not.
-
-    Clamd.ping
-
-Response from Clamd daemon will be "PONG" if it is alive
-
+    client.ping
     =>"PONG"
 
-To reload Clamd virus signature database
+### RELOAD
 
-    Clamd.reload
-
-Response from Clamd daemon will be "RELOADING"
-
+    client.reload
     =>"RELOADING"
 
-To shutdown Clamd daemon
+### SHUTDOWN
 
-    Clamd.shutdown
-
-Response will be blank if shutdown success
-
+    client.shutdown
     =>""
 
-To scan a file
+### SCAN
 
-    Clamd.scan("/file/path")
+    client.scan("/file/path")
     =>"/file/path: OK"
 
-To use CONTSCAN facility of Clamd
+### CONTSCAN
 
-    Clamd.contscan("/file/path")
+    client.contscan("/file/path")
     =>"/file/path: OK"
 
-To use MULTISCAN facility of Clamd
+### MULTISCAN
 
-    Clamd.multiscan("/file/path")
+    client.multiscan("/file/path")
     =>"/file/path: OK"
 
-To use INSTREAM facility of Clamd
+### INSTREAM
 
-    Clamd.instream("/file/path/to/stream/to/clamd")
+    client.instream("/file/path/to/stream/to/clamd")
     =>"stream: OK"
     
-To know Clamd scan queue status
+### STATS
 
-    Clamd.stats
+    client.stats
+    => "POOLS: 1STATE: VALID PRIMARYTHREADS: live 1  idle 0 max 12 idle-timeout 30QUEUE: 0 items"
+
+
+### VERSION
+
+    client.version
+    => "ClamAV 0.97.8/18237/Sat Dec 14 11:13:16 2013"
 
 ## Test
 
 Run spec
 
-    host="localhost" port="9321" rspec
+    rspec spec/

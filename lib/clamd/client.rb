@@ -36,7 +36,7 @@ module Clamd
     end
     
     def read_socket(socket, command)
-      socket.recv(clamd_response_size(command)).gsub(/(\u0000)|(\n)/, "")
+      socket.recv(clamd_response_size(command)).gsub(/(\u0000)|(\n)/, "").strip
     end
 
     def write_socket(socket, command, path)
