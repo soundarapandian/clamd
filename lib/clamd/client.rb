@@ -3,7 +3,7 @@ require 'clamd/socket_utility'
 require 'clamd/instream_helper'
 
 module Clamd
-  module Command
+  class Client
     COMMAND = {
       :ping => "PING",
       :version => "VERSION",
@@ -13,14 +13,14 @@ module Clamd
       :contscan => "CONTSCAN",
       :multiscan => "MULTISCAN",
       :instream => "zINSTREAM\0",
-      :stats => "zSTATS\0" }.freeze
+      :stats => "zSTATS\0"
+    }.freeze
 
     include SocketUtility
     include InstreamHelper
 
     def exec(command, path=nil)
       begin
-        return "ERROR: Please configure Clamd first" unless Clamd.configured?
         socket = Timeout::timeout(Clamd.configuration.open_timeout) { open_socket }
         write_socket(socket, command, path)
         Timeout::timeout(Clamd.configuration.read_timeout) { read_socket(socket, command) }
