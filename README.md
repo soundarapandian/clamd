@@ -1,6 +1,6 @@
 # Clamd
 
-Ruby gem to speak with Clamd daemon
+Ruby client to interact with ClamAV daemon
 
 ## Installation
 
