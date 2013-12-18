@@ -4,33 +4,43 @@ require 'clamd/instream_helper'
 
 module Clamd
   class Client
+    attr_accessor :host, :port, :open_timeout, :read_timeout, :chunk_size
+
     COMMAND = {
-      :ping => "PING",
-      :version => "VERSION",
-      :reload => "RELOAD",
-      :shutdown => "SHUTDOWN",
-      :scan => "SCAN",
-      :contscan => "CONTSCAN",
-      :multiscan => "MULTISCAN",
-      :instream => "zINSTREAM\0",
-      :stats => "zSTATS\0"
+      ping:       'PING',
+      version:    'VERSION',
+      reload:     'RELOAD',
+      shutdown:   'SHUTDOWN',
+      scan:       'SCAN',
+      contscan:   'CONTSCAN',
+      multiscan:  'MULTISCAN',
+      instream:   'zINSTREAM\0',
+      stats:      'zSTATS\0'
     }.freeze
 
     include SocketUtility
     include InstreamHelper
 
+    def initialize(options = {})
+      self.host = options[:host] || Clamd.configuration.host
+      self.port = options[:port] || Clamd.configuration.port
+      self.open_timeout = options[:open_timeout] || Clamd.configuration.open_timeout
+      self.read_timeout = options[:read_timeout] || Clamd.configuration.read_timeout
+      self.chunk_size = options[:chunk_size] || Clamd.configuration.chunk_size
+    end
+
     def exec(command, path=nil)
       begin
-        socket = Timeout::timeout(Clamd.configuration.open_timeout) { open_socket }
+        socket = Timeout::timeout(open_timeout) { open_socket }
         write_socket(socket, command, path)
-        Timeout::timeout(Clamd.configuration.read_timeout) { read_socket(socket, command) }
+        Timeout::timeout(read_timeout) { read_socket(socket, command) }
       rescue Exception => e
-        'error'
+        "ERROR: #{e.message.gsub('ERROR', '')}"
       ensure
         close_socket(socket) if socket
       end
     end
-    
+
     def read_socket(socket, command)
       socket.recv(clamd_response_size(command)).gsub(/(\u0000)|(\n)/, "").strip
     end

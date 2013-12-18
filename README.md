@@ -74,6 +74,20 @@ Refer the following code to configure Clamd.
     @clamd.stats
     => "POOLS: 1STATE: VALID PRIMARYTHREADS: live 1  idle 0 max 12 idle-timeout 30QUEUE: 0 items"
 
+### Connecting multiple ClamdAV daemon
+
+You can also connect to multiple ClamdAV daemon running on different machine at
+the same time.
+
+    @clamd1 = Clamd::Client.new(host: '192.16.20.11', port: 9321)
+    @clamd2 = Clamd::Client.new(host: '172.16.50.21', port: 8321)
+
+    @clamd1.ping
+    => "PONG"
+
+    @clamd2.ping
+    => "PONG"
+
 
 ### VERSION
 

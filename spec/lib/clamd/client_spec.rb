@@ -6,6 +6,20 @@ describe Clamd::Client do
   let(:directory_path) {File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'fixtures', 'documents'))}
   let(:file_with_virus_path) {File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'fixtures', 'virus'))}
 
+  shared_examples 'virus scanner' do |mode|
+    it 'scans the given file' do
+      expect(client.send(mode, file_path)).to match(/^.*: OK$/)
+    end
+
+    it 'scans the given directory' do
+      expect(client.send(mode, directory_path)).to match(/^.*: OK$/)
+    end
+
+    it "reports virus if found" do
+      expect(client.send(mode, file_with_virus_path)).to match(/^.*: (.+?) FOUND$/)
+    end
+  end
+
   describe '#ping' do
     it 'gets PONG if ClamAV daemon alive' do
       expect(client.ping).to eq('PONG')
@@ -25,36 +39,29 @@ describe Clamd::Client do
   end
 
   describe '#scan' do
-    it 'scans the given file' do
-      expect(client.scan file_path).to match(/^.*: OK$/)
-    end
-
-    it 'scans the given directory' do
-      expect(client.scan directory_path).to match(/^.*: OK$/)
-    end
-
-    it "reports thread if virus found" do
-      expect(client.scan file_with_virus_path).to match(/^.*: (.+?) FOUND$/)
-    end
+    include_examples 'virus scanner', 'scan'
   end
 
   describe '#multiscan' do
-    it 'scans the given file using multiscan feature' do
-      expect(client.multiscan file_path).to match(/^.*: OK$/)
-    end
-
-    it 'scans the given directory using multiscan feature' do
-      expect(client.multiscan directory_path).to match(/^.*: OK$/)
-    end
+    include_examples 'virus scanner', 'multiscan'
   end
-  
-  describe '#contscan' do
-    it 'scans the given file using contscan feature' do
-      expect(client.contscan file_path).to match(/^.*: OK$/)
-    end
 
-    it 'scans the given directory using contscan feature' do
-      expect(client.contscan directory_path).to match(/^.*: OK$/)
-    end
+  describe '#contscan' do
+    include_examples 'virus scanner', 'contscan'
+  end
+
+  it 'supports to connect multiple ClamAV daemon with different configuration' do
+    clamd1 = described_class.new(host: 'localhost')
+    clamd2 = described_class.new(host: '127.0.0.1')
+
+    expect(clamd1.ping).to eq('PONG')
+    expect(clamd2.ping).to eq('PONG')
+  end
+
+  it 'reads global configuration if not specified for current client' do
+    clamd = described_class.new
+
+    expect(clamd.host).to eq('localhost')
+    expect(clamd.port).to eq(9321)
   end
 end
