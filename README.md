@@ -21,63 +21,63 @@ Install clamd directly
 Clamd by default connects to 9321 port in localhost. You can also configure the
 host, port, open_timeout(seconds), read_timeout(seconds) and chunk_size(bytes).
 Refer the following code to configure Clamd.
-    
+
     Client.configure do |config|
       config.host = 'localhost'
       config.port = 9321
       config.open_timeout = 5
       config.read_timeout = 20
       config.chunk_size = 102400
-    end  
+    end
 
 ## Usage
 
-    @client = Clamd::Client.new
+    @clamd = Clamd::Client.new
 
 ### PING
 
-    @client.ping
+    @clamd.ping
     =>"PONG"
 
 ### RELOAD
 
-    @client.reload
+    @clamd.reload
     =>"RELOADING"
 
 ### SHUTDOWN
 
-    @client.shutdown
+    @clamd.shutdown
     =>""
 
 ### SCAN
 
-    @client.scan("/file/path")
+    @clamd.scan("/file/path")
     =>"/file/path: OK"
 
 ### CONTSCAN
 
-    @client.contscan("/file/path")
+    @clamd.contscan("/file/path")
     =>"/file/path: OK"
 
 ### MULTISCAN
 
-    @client.multiscan("/file/path")
+    @clamd.multiscan("/file/path")
     =>"/file/path: OK"
 
 ### INSTREAM
 
-    @client.instream("/file/path/to/stream/to/clamd")
+    @clamd.instream("/file/path/to/stream/to/clamd")
     =>"stream: OK"
-    
+
 ### STATS
 
-    @client.stats
+    @clamd.stats
     => "POOLS: 1STATE: VALID PRIMARYTHREADS: live 1  idle 0 max 12 idle-timeout 30QUEUE: 0 items"
 
 
 ### VERSION
 
-    @client.version
+    @clamd.version
     => "ClamAV 0.97.8/18237/Sat Dec 14 11:13:16 2013"
 
 ## Test
