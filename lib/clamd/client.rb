@@ -81,6 +81,8 @@ module Clamd
 
     def shutdown
       exec(COMMAND[:shutdown])
+
+      ping =~ /^ERROR: Connection refused.*$/ ? true : false
     end
 
     def scan(path)

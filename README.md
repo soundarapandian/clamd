@@ -47,7 +47,7 @@ Refer the following code to configure Clamd.
 ### SHUTDOWN
 
     @clamd.shutdown
-    =>""
+    => true
 
 ### SCAN
 
