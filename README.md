@@ -97,6 +97,10 @@ the same time.
 
 Clamd is released under the [MIT License](http://www.opensource.org/licenses/MIT).
 
+## Code Status
+
+[![Code Climate](https://codeclimate.com/github/soundarapandian/clamd.png)](https://codeclimate.com/github/soundarapandian/clamd)
+
 ## Test
 
 Run spec
