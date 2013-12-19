@@ -27,12 +27,12 @@ module Clamd
     # Writes the command to the given sicket
 
     def write_socket(socket, command, path)
-      if path && command != 'zINSTREAM\0'
+      if path && command != "zINSTREAM\0"
         socket.write("#{command} #{path}")
       else
         socket.write(command)
       end
-      stream_to_clamd(socket, path) if command == 'zINSTREAM\0'
+      stream_to_clamd(socket, path) if command == "zINSTREAM\0"
     end
 
     ##

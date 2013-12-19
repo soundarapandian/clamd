@@ -38,6 +38,12 @@ describe Clamd::Client do
     end
   end
 
+  describe '#stats' do
+    it 'displays ClamAV daemon scan queue status' do
+      expect(client.stats).to match(/^POOLS:.*$/)
+    end
+  end
+
   describe '#scan' do
     include_examples 'virus scanner', 'scan'
   end
@@ -48,6 +54,16 @@ describe Clamd::Client do
 
   describe '#contscan' do
     include_examples 'virus scanner', 'contscan'
+  end
+
+  describe '#instream' do
+    it 'scans the given stream' do
+      expect(client.instream file_path).to eq('stream: OK')
+    end
+
+    it "reports virus if found" do
+      expect(client.instream file_with_virus_path).to match(/^.*: (.+?) FOUND$/)
+    end
   end
 
   it 'supports to connect multiple ClamAV daemon with different configuration' do
