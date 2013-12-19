@@ -4,7 +4,19 @@ require 'clamd/socket_manager'
 module Clamd
   class Client
     attr_accessor :host, :port, :open_timeout, :read_timeout, :chunk_size
-    include Commands
+
+    COMMAND = {
+      ping:       'PING',
+      version:    'VERSION',
+      reload:     'RELOAD',
+      shutdown:   'SHUTDOWN',
+      scan:       'SCAN',
+      contscan:   'CONTSCAN',
+      multiscan:  'MULTISCAN',
+      instream:   'zINSTREAM\0',
+      stats:      'zSTATS\0'
+    }.freeze
+
     include SocketManager
 
     def initialize(options = {})
@@ -52,7 +64,7 @@ module Clamd
     def stats
       exec(COMMAND[:stats])
     end
-    
+
     private
 
       def exec(command, path=nil)

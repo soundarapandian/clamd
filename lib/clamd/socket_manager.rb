@@ -1,10 +1,7 @@
 require 'socket'
-require 'clamd/commands'
 
 module Clamd
   module SocketManager
-    include Commands
-
     def open_socket(host, port)
       TCPSocket.open(host, port)
     end
@@ -12,33 +9,33 @@ module Clamd
     def close_socket(socket)
       socket.close
     end
-    
+
     def read_socket(socket, command)
       socket.recv(clamd_response_size(command)).gsub(/(\u0000)|(\n)/, "").strip
     end
 
     def write_socket(socket, command, path)
-      if path && command != COMMAND[:instream]
+      if path && command != 'zINSTREAM\0'
         socket.write("#{command} #{path}")
       else
         socket.write(command)
       end
-      stream_to_clamd(socket, path) if command == COMMAND[:instream]
+      stream_to_clamd(socket, path) if command == 'zINSTREAM\0'
     end
 
     def clamd_response_size(command)
       case command
-      when COMMAND[:ping]
+      when 'PING'
         4
-      when COMMAND[:reload]
+      when 'RELOAD'
         9
-      when COMMAND[:shutdown]
+      when 'SHUTDOWN'
         1
       else
         1024
       end
     end
-    
+
     def stream_to_clamd(socket, path)
       begin
         file = File.open(path, "rb")
