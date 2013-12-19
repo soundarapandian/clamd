@@ -94,6 +94,10 @@ the same time.
     @clamd.version
     => "ClamAV 0.97.8/18237/Sat Dec 14 11:13:16 2013"
 
+## License
+
+Clamd is released under the [MIT License](http://www.opensource.org/licenses/MIT).
+
 ## Test
 
 Run spec
