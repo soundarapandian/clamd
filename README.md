@@ -74,6 +74,11 @@ Refer the following code to configure Clamd.
     @clamd.stats
     => "POOLS: 1STATE: VALID PRIMARYTHREADS: live 1  idle 0 max 12 idle-timeout 30QUEUE: 0 items"
 
+### VERSION
+
+    @clamd.version
+    => "ClamAV 0.97.8/18237/Sat Dec 14 11:13:16 2013"
+
 ### Connecting multiple ClamdAV daemon
 
 You can also connect to multiple ClamdAV daemon running on different machine at
@@ -87,12 +92,6 @@ the same time.
 
     @clamd2.ping
     => "PONG"
-
-
-### VERSION
-
-    @clamd.version
-    => "ClamAV 0.97.8/18237/Sat Dec 14 11:13:16 2013"
 
 ## License
 
