@@ -15,7 +15,7 @@ module Clamd
   # In the above example the ClamdAV daemon details will be get from the
   # Clamd::Configuration
   #
-  # You can also override the globla Clamd::Configuration as given below
+  # You can also override the global Clamd::Configuration as given below
   #
   #    clamd = Clamd::Client.new(host: '172.15.20.11', port: 8321)
   #    clamd.ping
