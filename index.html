@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Clamd by soundarapandian</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Clamd</h1>
+        <h2>Ruby gem to interact with Clamd daemon</h2>
+        <a href="https://github.com/soundarapandian/clamd" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="clamd" class="anchor" href="#clamd"><span class="octicon octicon-link"></span></a>Clamd</h1>
+
+<p>Ruby client to interact with ClamAV daemon</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Add this line to your application's Gemfile:</p>
+
+<pre><code>gem 'clamd'
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre><code>$ bundle
+</code></pre>
+
+<p>Install clamd directly</p>
+
+<pre><code>$ gem install clamd
+</code></pre>
+
+<h2>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h2>
+
+<p>Clamd by default connects to 9321 port in localhost. You can also configure the
+host, port, open_timeout(seconds), read_timeout(seconds) and chunk_size(bytes).
+Refer the following code to configure Clamd.</p>
+
+<pre><code>Client.configure do |config|
+  config.host = 'localhost'
+  config.port = 9321
+  config.open_timeout = 5
+  config.read_timeout = 20
+  config.chunk_size = 102400
+end
+</code></pre>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<pre><code>@clamd = Clamd::Client.new
+</code></pre>
+
+<h3>
+<a name="ping" class="anchor" href="#ping"><span class="octicon octicon-link"></span></a>PING</h3>
+
+<pre><code>@clamd.ping
+=&gt;"PONG"
+</code></pre>
+
+<h3>
+<a name="reload" class="anchor" href="#reload"><span class="octicon octicon-link"></span></a>RELOAD</h3>
+
+<pre><code>@clamd.reload
+=&gt;"RELOADING"
+</code></pre>
+
+<h3>
+<a name="shutdown" class="anchor" href="#shutdown"><span class="octicon octicon-link"></span></a>SHUTDOWN</h3>
+
+<pre><code>@clamd.shutdown
+=&gt; true
+</code></pre>
+
+<h3>
+<a name="scan" class="anchor" href="#scan"><span class="octicon octicon-link"></span></a>SCAN</h3>
+
+<pre><code>@clamd.scan("/file/path")
+=&gt;"/file/path: OK"
+</code></pre>
+
+<h3>
+<a name="contscan" class="anchor" href="#contscan"><span class="octicon octicon-link"></span></a>CONTSCAN</h3>
+
+<pre><code>@clamd.contscan("/file/path")
+=&gt;"/file/path: OK"
+</code></pre>
+
+<h3>
+<a name="multiscan" class="anchor" href="#multiscan"><span class="octicon octicon-link"></span></a>MULTISCAN</h3>
+
+<pre><code>@clamd.multiscan("/file/path")
+=&gt;"/file/path: OK"
+</code></pre>
+
+<h3>
+<a name="instream" class="anchor" href="#instream"><span class="octicon octicon-link"></span></a>INSTREAM</h3>
+
+<pre><code>@clamd.instream("/file/path/to/stream/to/clamd")
+=&gt;"stream: OK"
+</code></pre>
+
+<h3>
+<a name="stats" class="anchor" href="#stats"><span class="octicon octicon-link"></span></a>STATS</h3>
+
+<pre><code>@clamd.stats
+=&gt; "POOLS: 1STATE: VALID PRIMARYTHREADS: live 1  idle 0 max 12 idle-timeout 30QUEUE: 0 items"
+</code></pre>
+
+<h3>
+<a name="version" class="anchor" href="#version"><span class="octicon octicon-link"></span></a>VERSION</h3>
+
+<pre><code>@clamd.version
+=&gt; "ClamAV 0.97.8/18237/Sat Dec 14 11:13:16 2013"
+</code></pre>
+
+<h3>
+<a name="connecting-multiple-clamdav-daemon" class="anchor" href="#connecting-multiple-clamdav-daemon"><span class="octicon octicon-link"></span></a>Connecting multiple ClamdAV daemon</h3>
+
+<p>You can also connect to multiple ClamdAV daemon running on different machine at
+the same time.</p>
+
+<pre><code>@clamd1 = Clamd::Client.new(host: '192.16.20.11', port: 9321)
+@clamd2 = Clamd::Client.new(host: '172.16.50.21', port: 8321)
+
+@clamd1.ping
+=&gt; "PONG"
+
+@clamd2.ping
+=&gt; "PONG"
+</code></pre>
+
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Clamd is released under the <a href="http://www.opensource.org/licenses/MIT">MIT License</a>.</p>
+
+<h2>
+<a name="code-status" class="anchor" href="#code-status"><span class="octicon octicon-link"></span></a>Code Status</h2>
+
+<p><a href="http://badge.fury.io/rb/clamd"><img src="https://badge.fury.io/rb/clamd.png" alt="Gem Version"></a>
+<a href="https://codeclimate.com/github/soundarapandian/clamd"><img src="https://codeclimate.com/github/soundarapandian/clamd.png" alt="Code Climate"></a></p>
+
+<h2>
+<a name="test" class="anchor" href="#test"><span class="octicon octicon-link"></span></a>Test</h2>
+
+<p>Run spec</p>
+
+<pre><code>rspec spec/
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/soundarapandian/clamd/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/soundarapandian/clamd/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/soundarapandian/clamd"></a> is maintained by <a href="https://github.com/soundarapandian">soundarapandian</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
