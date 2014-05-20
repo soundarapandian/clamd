@@ -1,10 +1,20 @@
 require 'spec_helper'
+require 'tempfile'
 
 describe Clamd::Client do
   let(:client) {described_class.new}
   let(:file_path) {File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'fixtures', 'clamdoc.pdf'))}
   let(:directory_path) {File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'fixtures', 'documents'))}
-  let(:file_with_virus_path) {File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'fixtures', 'virus'))}
+  let(:file_with_virus_path) { file_with_virus.path }
+
+  shared_context 'virus file exists' do
+    let(:file_with_virus) do
+      Tempfile.open('virus', encoding: 'BINARY').tap do |file|
+        file.write('X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*]')
+        file.rewind
+      end
+    end
+  end
 
   shared_examples 'virus scanner' do |mode|
     it 'scans the given file' do
@@ -19,6 +29,10 @@ describe Clamd::Client do
       expect(client.send(mode, file_with_virus_path)).to match(/^.*: (.+?) FOUND$/)
     end
   end
+
+  include_context 'virus file exists'
+
+  after { file_with_virus.unlink }
 
   describe '#ping' do
     it 'gets PONG if ClamAV daemon alive' do
@@ -62,6 +76,7 @@ describe Clamd::Client do
     end
 
     it "reports virus if found" do
+
       expect(client.instream file_with_virus_path).to match(/^.*: (.+?) FOUND$/)
     end
   end
