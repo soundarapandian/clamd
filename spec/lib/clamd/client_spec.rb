@@ -76,7 +76,6 @@ describe Clamd::Client do
     end
 
     it "reports virus if found" do
-
       expect(client.instream file_with_virus_path).to match(/^.*: (.+?) FOUND$/)
     end
   end
