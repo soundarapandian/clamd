@@ -2,6 +2,10 @@
 
 Ruby client to interact with ClamAV daemon
 
+[![Gem Version](https://badge.fury.io/rb/clamd.png)](http://badge.fury.io/rb/clamd)
+[![Code Climate](https://codeclimate.com/github/soundarapandian/clamd.png)](https://codeclimate.com/github/soundarapandian/clamd)
+[![Travis](https://travis-ci.org/soundarapandian/clamd.svg?branch=master)](https://travis-ci.org/soundarapandian/clamd)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -96,12 +100,6 @@ the same time.
 ## License
 
 Clamd is released under the [MIT License](http://www.opensource.org/licenses/MIT).
-
-## Code Status
-
-[![Gem Version](https://badge.fury.io/rb/clamd.png)](http://badge.fury.io/rb/clamd)
-[![Code Climate](https://codeclimate.com/github/soundarapandian/clamd.png)](https://codeclimate.com/github/soundarapandian/clamd)
-[![Travis](https://travis-ci.org/soundarapandian/clamd.svg?branch=master)](https://travis-ci.org/soundarapandian/clamd)
 
 ## Test
 
