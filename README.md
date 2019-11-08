@@ -26,7 +26,7 @@ Clamd by default connects to 9321 port in localhost. You can also configure the
 host, port, open_timeout(seconds), read_timeout(seconds) and chunk_size(bytes).
 Refer the following code to configure Clamd.
 
-    Client.configure do |config|
+    Clamd.configure do |config|
       config.host = 'localhost'
       config.port = 9321
       config.open_timeout = 5
